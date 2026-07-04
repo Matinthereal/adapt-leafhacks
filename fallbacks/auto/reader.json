@@ -1,0 +1,21 @@
+{
+  "chunks": [
+    "Green plants make their own food.",
+    "Some other organisms do this too.",
+    "This process is called photosynthesis.",
+    "They use sunlight to make food.",
+    "They use carbon dioxide and water.",
+    "Plants use a green pigment.",
+    "This pigment is called chlorophyll.",
+    "The process also makes oxygen.",
+    "Oxygen is a leftover by-product."
+  ],
+  "flagged_terms": [
+    "photosynthesis",
+    "organisms",
+    "carbon dioxide",
+    "pigment",
+    "chlorophyll",
+    "by-product"
+  ]
+}
