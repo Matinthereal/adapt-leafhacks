@@ -1,3 +1,9 @@
 .env
 node_modules/
 *.log
+
+# promo footage & renders (local only)
+demo/assets/*.mp4
+demo/assets/clip*.mp4
+demo/assets/music.*
+demo/assets/vo.*

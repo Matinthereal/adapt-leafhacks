@@ -1,0 +1,83 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; }
+  .card {
+    width:1920px; height:1080px; position:relative; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; color:#f4f7fc; padding:120px;
+    background: radial-gradient(1200px 700px at 50% 20%, #16233f 0%, #0b1220 60%, #070c16 100%);
+  }
+  .glow { position:absolute; border-radius:50%; filter:blur(120px); opacity:.5; }
+  .g1 { width:600px; height:600px; background:#2563eb; top:-160px; left:-120px; }
+  .g2 { width:520px; height:520px; background:#f4a261; bottom:-180px; right:-100px; opacity:.35; }
+  .mark { width:120px; height:120px; border-radius:34px; background:linear-gradient(135deg,#2563eb,#0ea5e9);
+    display:grid; place-items:center; font-family:'Lexend'; font-weight:800; font-size:74px; color:#fff;
+    box-shadow:0 20px 60px rgba(37,99,235,.5); margin-bottom:44px; position:relative; }
+  h1 { font-family:'Lexend'; font-weight:800; font-size:110px; letter-spacing:-3px; line-height:1.02; position:relative; }
+  h1 .grad { background:linear-gradient(135deg,#60a5fa,#38bdf8); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .kick { font-family:'Lexend'; font-weight:700; font-size:30px; letter-spacing:8px; text-transform:uppercase; color:#f4a261; margin-bottom:30px; position:relative; }
+  .sub { font-size:44px; color:#93a4bf; margin-top:34px; max-width:1200px; line-height:1.4; position:relative; font-weight:400; }
+  .sub b { color:#f4f7fc; font-weight:700; }
+  .huge { font-family:'Lexend'; font-weight:800; font-size:200px; line-height:1; background:linear-gradient(135deg,#f4a261,#e2833a); -webkit-background-clip:text; background-clip:text; color:transparent; position:relative; }
+  .cite { font-size:34px; color:#93a4bf; margin-top:44px; font-style:italic; position:relative; }
+  .row { display:flex; gap:26px; margin-top:48px; position:relative; flex-wrap:wrap; justify-content:center; }
+  .tag { font-family:'Lexend'; font-weight:600; font-size:32px; padding:18px 34px; border-radius:100px; border:2px solid #26355a; background:#131c2e; color:#cbd6ea; }
+  .tag.on { background:linear-gradient(135deg,#2563eb,#0ea5e9); border-color:transparent; color:#fff; }
+  .qr { width:280px; height:280px; border-radius:24px; background:#fff; padding:16px; margin-top:8px; }
+  .footline { position:absolute; bottom:70px; font-family:'Lexend'; font-weight:600; font-size:30px; color:#5b6b83; letter-spacing:2px; }
+  .tagline { font-family:'Lexend'; font-weight:700; font-size:56px; color:#f4f7fc; margin-top:20px; }
+</style></head>
+<body>
+
+<!-- 0: INTRO -->
+<section class="card" id="card-intro">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="mark">A</div>
+  <h1>Adapt</h1>
+  <div class="sub"><b>Teach it back.</b> Adapt finds the gap.</div>
+  <div class="footline">Built for every mind · LeafHacks ’26</div>
+</section>
+
+<!-- 1: STAT -->
+<section class="card" id="card-stat">
+  <div class="glow g2"></div>
+  <div class="kick">The problem</div>
+  <div class="huge">549,000</div>
+  <div class="sub">students in England are waiting <b>right now</b> for an ADHD assessment.<br>1 in 10 are dyslexic. Standard study material was never built for them.</div>
+</section>
+
+<!-- 2: SCIENCE -->
+<section class="card" id="card-science">
+  <div class="glow g1"></div>
+  <div class="kick">The science</div>
+  <h1 style="font-size:88px">Teaching it <span class="grad">more than doubles</span><br>what you keep.</h1>
+  <div class="cite">Fiorella &amp; Mayer, 2013 — d = 0.56 vs 0.22 · the protégé effect</div>
+</section>
+
+<!-- 3: TECH -->
+<section class="card" id="card-tech">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="kick">Under the hood</div>
+  <h1 style="font-size:74px">Gemini is the reasoning engine.<br><span class="grad">The engineering is ours.</span></h1>
+  <div class="row">
+    <div class="tag on">Structured JSON</div>
+    <div class="tag">Two-phase persona</div>
+    <div class="tag">Voice + TTS</div>
+    <div class="tag">Profile-driven</div>
+  </div>
+</section>
+
+<!-- 4: OUTRO -->
+<section class="card" id="card-outro">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="mark">A</div>
+  <h1><span class="grad">Adapt</span></h1>
+  <div class="tagline">Built for every mind.</div>
+  <img class="qr" src="qr.png" alt="scan to try">
+  <div class="footline">Scan to try it · LeafHacks ’26</div>
+</section>
+
+</body></html>
