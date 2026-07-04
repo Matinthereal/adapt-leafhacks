@@ -197,7 +197,7 @@ async function askGemini(route, body) {
     contents: buildContents(route, body),
     generationConfig: def.schema
       ? { responseMimeType: 'application/json', responseSchema: def.schema, temperature: 0.4 }
-      : { temperature: 0.9, maxOutputTokens: 500 },
+      : { temperature: 0.9, maxOutputTokens: 2048 }, // headroom so thinking tokens never truncate Gem's short reply
   };
   const attempts = [[MODEL, 0], [MODEL_ALT, 800]]; // primary, then one quick alt-model retry
   let lastErr;

@@ -4,183 +4,237 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Adapt — Advanced Dyslexia &amp; ADHD Personal Tutor</title>
+<meta name="theme-color" content="#2563eb">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>@font-face{font-family:'OpenDyslexic';src:local('OpenDyslexic');}</style>
 <link rel="stylesheet" href="/styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%232563eb'/><text x='50' y='72' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>A</text></svg>">
 </head>
 <body>
 <a class="sr-only" href="#main">Skip to content</a>
-<header class="topbar">
-  <div class="brand"><b>Adapt</b><span>Advanced Dyslexia &amp; ADHD Personal Tutor</span></div>
-  <div class="toolbar" role="group" aria-label="Accessibility controls">
-    <button class="tool" id="btnDysFont" aria-pressed="false" title="Toggle OpenDyslexic font">🔤 Dys font</button>
-    <button class="tool" id="btnContrast" aria-pressed="false" title="High contrast">◐ Contrast</button>
-    <button class="tool" id="btnTextDown" title="Smaller text">A−</button>
-    <button class="tool" id="btnTextUp" title="Larger text">A＋</button>
-    <button class="tool" id="btnReset" title="Change profile">↺ Profile</button>
-  </div>
-</header>
 
-<main id="main">
-  <!-- STEP 0 — profile picker -->
-  <section id="pickPanel" class="panel active" aria-labelledby="pickH">
-    <h1 id="pickH">First — how do you learn best?</h1>
-    <p class="hint">No login, no account, ever. Your choice reshapes everything below. You can switch any time.</p>
-    <div class="profile-cards" role="radiogroup" aria-label="Learning profile">
-      <button class="pcard" role="radio" aria-checked="false" data-p="dyslexia">
-        <span class="check">✓</span><div class="ico">📖</div><h3>Dyslexia-friendly</h3>
-        <p>Warm background, roomy spacing, plain words, optional dyslexia font.</p>
-        <div class="prev">Aa · Lexend · 1.9 line height · ivory canvas</div>
-      </button>
-      <button class="pcard" role="radio" aria-checked="false" data-p="adhd">
-        <span class="check">✓</span><div class="ico">⚡</div><h3>ADHD Focus</h3>
-        <p>Dark high-contrast, larger text, one paragraph in focus at a time.</p>
-        <div class="prev">Aa · dark canvas · focus dimming · momentum tone</div>
-      </button>
-      <button class="pcard" role="radio" aria-checked="false" data-p="classic">
-        <span class="check">✓</span><div class="ico">🎓</div><h3>Classic</h3>
-        <p>Clean neutral defaults. Everything on, nothing tuned.</p>
-        <div class="prev">Aa · Inter · light · balanced</div>
-      </button>
+<div class="shell">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="side" id="side">
+    <div class="logo">
+      <div class="logo-mark" aria-hidden="true">A</div>
+      <div><b>Adapt</b><small>Advanced Dyslexia &amp; ADHD Personal Tutor</small></div>
     </div>
-  </section>
 
-  <!-- WORKSPACE -->
-  <section id="workspace" hidden>
-    <div class="tabs" role="tablist" aria-label="Modes">
-      <button class="tab" role="tab" aria-selected="true" data-tab="reader"><span class="n">1</span>📖 Reader</button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="explain"><span class="n">2</span>💡 Explain differently</button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="teach"><span class="n">3</span>🧑‍🏫 Teach it back</button>
+    <div class="navwrap">
+      <p class="side-label">Modes</p>
+      <nav aria-label="Modes" id="sideNav">
+        <button class="navbtn" data-tab="reader" aria-selected="false"><span class="ic">📖</span><span>Reader<span class="sub">Re-chunk any text</span></span></button>
+        <button class="navbtn" data-tab="explain" aria-selected="false"><span class="ic">💡</span><span>Explain<span class="sub">Analogy · story · steps</span></span></button>
+        <button class="navbtn" data-tab="teach" aria-selected="false"><span class="ic">🧑‍🏫</span><span>Teach it back<span class="sub">Find your gaps</span></span></button>
+      </nav>
     </div>
+
+    <div class="side-sec">
+      <div style="width:100%">
+        <p class="side-label">Profile</p>
+        <div class="chips" role="radiogroup" aria-label="Learning profile" id="profileChips">
+          <button class="chip" role="radio" aria-checked="false" aria-pressed="false" data-p="dyslexia" aria-label="Dyslexia profile"><span aria-hidden="true">📖</span><span class="lbltxt">Dyslexia</span></button>
+          <button class="chip" role="radio" aria-checked="false" aria-pressed="false" data-p="adhd" aria-label="ADHD profile"><span aria-hidden="true">⚡</span><span class="lbltxt">ADHD</span></button>
+          <button class="chip" role="radio" aria-checked="false" aria-pressed="false" data-p="classic" aria-label="Classic profile"><span aria-hidden="true">🎓</span><span class="lbltxt">Classic</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-sec">
+      <div style="width:100%">
+        <p class="side-label">Display</p>
+        <div class="side-tools" role="group" aria-label="Display settings">
+          <button class="tool" id="btnDysFont" aria-pressed="false" title="OpenDyslexic font">🔤 Dys font</button>
+          <button class="tool" id="btnContrast" aria-pressed="false" title="High contrast">◐ Contrast</button>
+          <button class="tool" id="btnTextDown" title="Smaller text">A−</button>
+          <button class="tool" id="btnTextUp" title="Larger text">A＋</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-foot">
+      <div class="status" id="status"><span class="dot" id="statusDot"></span><span class="txt" id="statusTxt">checking…</span></div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main" id="main">
+
+    <!-- onboarding -->
+    <section class="onboard panel" id="panel-onboard">
+      <h1>How do you learn best?</h1>
+      <p class="lead">No login, no account — ever. Your choice reshapes fonts, colours, pacing and how our AI talks to you. Switch any time.</p>
+      <div class="pgrid">
+        <button class="pcard" data-p="dyslexia">
+          <span class="ico">📖</span>
+          <h3>Dyslexia-friendly</h3>
+          <p>Warm ivory canvas, Lexend with an OpenDyslexic option, short plain sentences, roomy spacing.</p>
+          <span class="prev">Aa · 1.95 line height · one idea per sentence</span>
+        </button>
+        <button class="pcard" data-p="adhd">
+          <span class="ico">⚡</span>
+          <h3>ADHD Focus</h3>
+          <p>Calm dark canvas, bigger text, one paragraph in focus at a time, momentum-building tone.</p>
+          <span class="prev">Aa · dark · focus dimming · active voice</span>
+        </button>
+        <button class="pcard" data-p="classic">
+          <span class="ico">🎓</span>
+          <h3>Classic</h3>
+          <p>Clean, neutral defaults with everything available. A good place to start exploring.</p>
+          <span class="prev">Aa · light · balanced spacing</span>
+        </button>
+      </div>
+      <p class="foot">Built for every mind · LeafHacks ’26</p>
+    </section>
 
     <!-- READER -->
-    <div id="tab-reader" class="panel active">
-      <div class="grid2">
+    <section class="panel" id="panel-reader" aria-labelledby="readerH">
+      <div class="pagehead">
+        <span class="kicker">Reader</span>
+        <h1 id="readerH">Make any text readable</h1>
+        <p>Paste homework, notes or a dense paragraph. Adapt re-renders it in short, self-contained chunks — keeping every fact.</p>
+      </div>
+      <div class="duo">
         <div class="card">
-          <label class="lbl" for="srcText">Paste homework, a paragraph, revision notes…</label>
-          <textarea id="srcText" rows="9" placeholder="Paste any text here and Adapt will re-render it in short, clear chunks — keeping every fact."></textarea>
+          <label class="lbl" for="srcText">Your text</label>
+          <textarea id="srcText" rows="9" placeholder="Paste anything here — a textbook paragraph, homework question, revision notes…"></textarea>
           <div id="clampBanner" class="banner" hidden>Text clamped to initial 5000 characters.</div>
-          <div style="display:flex; gap:.6rem; margin-top:.8rem; flex-wrap:wrap; align-items:center;">
-            <button class="btn" id="btnReader">Make it readable</button>
-            <button class="tool" id="btnEmph" aria-pressed="true" title="Emphasis bolding">Emphasis</button>
-            <span class="hint">Emphasis anchors the first letters of longer words — a reading preference, not a proven trick.</span>
+          <div style="display:flex; gap:.6rem; margin-top:1rem; flex-wrap:wrap; align-items:center;">
+            <button class="btn" id="btnReader">✨ Make it readable</button>
+            <button class="tool" id="btnEmph" aria-pressed="true" title="Bold the start of longer words" style="width:auto; padding-inline:.9rem;">Emphasis</button>
           </div>
+          <p class="hint" style="margin-top:.7rem;">Emphasis anchors the first letters of longer words — a reading preference, not a proven trick.</p>
         </div>
         <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <label class="lbl">Adapted output</label><span id="readerSrc" class="badge-src" hidden></span>
-          </div>
-          <div id="readerOut" class="reader-out reader-body" aria-live="polite">
-            <p class="hint">Your re-rendered text appears here.</p>
+          <div class="outhead"><label class="lbl" style="margin:0;">Adapted output</label><span class="srcbadge" id="readerSrc" hidden></span></div>
+          <div id="readerOut" class="reader-out reader-body focusable" aria-live="polite">
+            <div class="empty"><span class="big">📖</span>Your re-rendered text will appear here.</div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- EXPLAIN -->
-    <div id="tab-explain" class="panel">
-      <div class="grid2">
+    <section class="panel" id="panel-explain" aria-labelledby="explainH">
+      <div class="pagehead">
+        <span class="kicker">Explain differently</span>
+        <h1 id="explainH">Another way in</h1>
+        <p>Same facts, different shape. Pick the explanation mode that clicks — these are ways of understanding, not neuro-typed “learning styles”.</p>
+      </div>
+      <div class="duo">
         <div class="card">
-          <label class="lbl" for="expText">Concept or text to re-explain</label>
-          <textarea id="expText" rows="7" placeholder="Paste the thing that isn't clicking."></textarea>
-          <label class="lbl" style="margin-top:.9rem;">Explanation mode</label>
+          <label class="lbl" for="expText">The thing that isn’t clicking</label>
+          <textarea id="expText" rows="7" placeholder="Paste the concept or paragraph…"></textarea>
+          <label class="lbl" style="margin-top:1rem;">Mode</label>
           <div class="seg" id="styleSeg" role="group" aria-label="Explanation mode">
-            <button data-s="analogy" aria-pressed="true">Standard Analogy</button>
-            <button data-s="story" aria-pressed="false">Narrative Format</button>
-            <button data-s="step_by_step" aria-pressed="false">Step-by-Step Breakdown</button>
+            <button data-s="analogy" aria-pressed="true">🔗 Analogy</button>
+            <button data-s="story" aria-pressed="false">📚 Story</button>
+            <button data-s="step_by_step" aria-pressed="false">🪜 Step-by-step</button>
           </div>
-          <div style="margin-top:.9rem;"><button class="btn" id="btnExplain">Explain it differently</button></div>
-          <p class="hint" style="margin-top:.5rem;">“Modes” are ways of understanding — not neuro-typed learning styles.</p>
+          <div style="margin-top:1rem;"><button class="btn" id="btnExplain">💡 Explain it differently</button></div>
         </div>
         <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <label class="lbl">Explanation</label><span id="explainSrc" class="badge-src" hidden></span>
+          <div class="outhead"><label class="lbl" style="margin:0;">Explanation</label><span class="srcbadge" id="explainSrc" hidden></span></div>
+          <div id="explainOut" class="reader-body focusable" aria-live="polite">
+            <div class="empty"><span class="big">💡</span>Pick a mode and press explain.</div>
           </div>
-          <div id="explainOut" class="reader-body" aria-live="polite"><p class="hint">Pick a mode and press explain.</p></div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- TEACH IT BACK -->
-    <div id="tab-teach" class="panel">
-      <div class="grid2">
-        <div class="card">
-          <label class="lbl" for="topicInput">What are you teaching Gem today?</label>
-          <input type="text" id="topicInput" placeholder="e.g. Photosynthesis" />
-          <details style="margin-top:.6rem;">
-            <summary class="hint" style="cursor:pointer;">Optional: paste the source text Gem should check you against</summary>
-            <textarea id="refText" rows="3" style="margin-top:.5rem;" placeholder="Leave blank and Gem judges how consistent and clear your explanation is."></textarea>
-          </details>
-          <button class="btn" id="btnStartTeach" style="margin-top:.8rem;">Start teaching →</button>
-          <p class="hint" style="margin-top:.6rem;">Gem is a curious classmate who knows nothing yet. Teach out loud or by typing — then we map what you nailed and where the gaps are.</p>
-        </div>
+    <section class="panel" id="panel-teach" aria-labelledby="teachH">
+      <div class="pagehead">
+        <span class="kicker">Teach it back</span>
+        <h1 id="teachH">Teach Gem — we’ll map your gaps</h1>
+        <p>Gem is a curious classmate who knows nothing yet. Explain in your own words, typed or out loud. When you finish, you get a map of what you nailed and exactly where the gaps are.</p>
+      </div>
 
-        <div class="card" id="teachStage" hidden>
-          <div class="turnbar">
-            <span class="badge-src" id="turnCount">Turn 0 / 10</span>
-            <div class="progress"><i id="turnFill"></i></div>
-            <button class="tool" id="btnTTS" aria-pressed="true" title="Read Gem aloud">🔊 Voice</button>
-          </div>
-          <div class="chat" id="chat" aria-live="polite"></div>
-          <div class="wave" id="wave" aria-hidden="true"></div>
-          <div class="composer">
-            <textarea id="teachInput" rows="1" placeholder="Explain to Gem in your own words…" aria-label="Your explanation to Gem"></textarea>
-            <button class="mic" id="btnMic" title="Hold/tap to speak (Chrome/Edge/Safari)" aria-label="Speak your explanation">🎤</button>
-            <button class="btn" id="btnSend">Send</button>
-          </div>
-          <div style="margin-top:.7rem; display:flex; gap:.6rem; flex-wrap:wrap;">
-            <button class="btn ghost" id="btnFinalize" hidden>See what we mapped out →</button>
-          </div>
+      <div class="card teach-setup" id="teachSetup">
+        <label class="lbl" for="topicInput">What are you teaching Gem today?</label>
+        <input type="text" id="topicInput" placeholder="e.g. Photosynthesis" />
+        <details style="margin-top:.8rem;">
+          <summary class="hint" style="cursor:pointer;">Optional: paste source text to check yourself against</summary>
+          <textarea id="refText" rows="3" style="margin-top:.6rem;" placeholder="Leave blank and Gem judges how clear and consistent your explanation is."></textarea>
+        </details>
+        <button class="btn" id="btnStartTeach" style="margin-top:1rem;">🚀 Start teaching</button>
+      </div>
+
+      <div class="card stage" id="teachStage" hidden>
+        <div class="turnrow">
+          <span class="turnpill" id="turnCount">Turn 0 / 10</span>
+          <div class="track"><i id="turnFill"></i></div>
+          <button class="tool" id="btnTTS" aria-pressed="true" title="Read Gem’s replies aloud" style="width:auto;">🔊</button>
+          <button class="tool" id="btnRestartTeach" title="Start over" style="width:auto;">↺</button>
+        </div>
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <div class="composer">
+          <textarea id="teachInput" rows="1" placeholder="Explain to Gem in your own words…" aria-label="Your explanation to Gem"></textarea>
+          <button class="mic" id="btnMic" title="Speak your explanation" aria-label="Speak your explanation">🎤</button>
+          <button class="btn" id="btnSend">Send</button>
+        </div>
+        <div class="finishrow">
+          <button class="btn ghost" id="btnFinalize" disabled title="Teach Gem a little more first">🗺️ See what we mapped out</button>
         </div>
       </div>
 
       <!-- WOW REPORT -->
-      <div class="report card" id="report" style="margin-top:1.2rem;" aria-live="polite">
-        <div class="report-head">
-          <svg class="ring" id="ring" viewBox="0 0 120 120" role="img" aria-label="Understanding score">
-            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--elevated)" stroke-width="10"/>
-            <circle id="ringArc" cx="60" cy="60" r="52" fill="none" stroke="var(--emerald)" stroke-width="10"
-              stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/>
-            <text id="ringNum" x="60" y="58" text-anchor="middle" font-size="30">0</text>
-            <text x="60" y="80" text-anchor="middle" font-size="11" fill="var(--muted)">/ 100</text>
-          </svg>
-          <div>
-            <h2 style="margin:0;">Here’s what you mapped out</h2>
-            <div class="trend" id="trendLine"></div>
-            <div class="pills" id="strengthPills"></div>
+      <div class="report" id="report" hidden>
+        <div class="card">
+          <div class="rephead">
+            <svg class="ring" id="ring" viewBox="0 0 120 120" role="img" aria-label="Understanding score">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="var(--elevated)" stroke-width="11"/>
+              <circle id="ringArc" cx="60" cy="60" r="52" fill="none" stroke="var(--good)" stroke-width="11"
+                stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/>
+              <text id="ringNum" x="60" y="60" text-anchor="middle" font-size="32">0</text>
+              <text x="60" y="82" text-anchor="middle" font-size="11" fill="var(--muted)">/ 100</text>
+            </svg>
+            <div class="repmeta">
+              <h2>Here’s what you mapped out</h2>
+              <div class="trend" id="trendLine"></div>
+              <div class="pills" id="strengthPills"></div>
+            </div>
+          </div>
+
+          <div class="repsec">
+            <h3>🔍 Where the gaps are <span class="hint">— tap each for Gem’s hint</span></h3>
+            <div id="gapList"></div>
+          </div>
+
+          <div class="repsec">
+            <h3>❓ Close the loop</h3>
+            <ol class="follow" id="followList"></ol>
+          </div>
+
+          <details class="repfold" open>
+            <summary>📝 The version worth keeping</summary>
+            <div class="fold-in reader-body" id="improved"></div>
+          </details>
+          <details class="repfold">
+            <summary>💬 Your transcript</summary>
+            <div class="fold-in" id="transcript"></div>
+          </details>
+
+          <div style="display:flex; gap:.6rem; margin-top:1.2rem; flex-wrap:wrap;">
+            <button class="btn sm" id="btnTeachAgain">Teach it again — beat your score</button>
+            <button class="btn sm ghost" id="btnNewTopic">New topic</button>
           </div>
         </div>
-
-        <h3 style="margin-top:1.2rem;">Where the gaps are <span class="hint">— tap each to see Gem’s hint</span></h3>
-        <div id="gapList"></div>
-
-        <details style="margin-top:1rem;">
-          <summary style="cursor:pointer; font-weight:700;">Questions to close the loop</summary>
-          <ul id="followList" style="margin:.6rem 0;"></ul>
-        </details>
-
-        <details style="margin-top:.4rem;" open>
-          <summary style="cursor:pointer; font-weight:700;">The version worth keeping</summary>
-          <div id="improved" class="reader-body" style="margin-top:.6rem;"></div>
-        </details>
-
-        <details style="margin-top:.4rem;">
-          <summary style="cursor:pointer; font-weight:700;">Your transcript</summary>
-          <div id="transcript" class="transcript" style="margin-top:.6rem;"></div>
-        </details>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
 
-<nav class="wiznav" id="wiznav" hidden>
-  <button class="btn ghost" id="wizPrev">← Back</button>
-  <button class="btn" id="wizNext">Next →</button>
+    <p class="foot" id="foot">Adapt · built for every mind at LeafHacks ’26 · Gemini is the reasoning engine — the accessibility engineering is ours.</p>
+  </main>
+</div>
+
+<!-- mobile bottom nav -->
+<nav class="bottnav" id="bottnav" aria-label="Modes">
+  <button class="navbtn" data-tab="reader" aria-selected="false"><span class="ic">📖</span>Reader</button>
+  <button class="navbtn" data-tab="explain" aria-selected="false"><span class="ic">💡</span>Explain</button>
+  <button class="navbtn" data-tab="teach" aria-selected="false"><span class="ic">🧑‍🏫</span>Teach</button>
 </nav>
-
-<footer>Adapt · built for every mind at LeafHacks ’26 · Gemini is the reasoning engine, the accessibility engineering is ours.</footer>
 
 <script src="/app.js"></script>
 </body>

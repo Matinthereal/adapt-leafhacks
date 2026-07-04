@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Adapt Assistant
+Comment=Advanced Dyslexia & ADHD Personal Tutor — on-screen study assistant
+Exec=/home/matindarwish/adapt/desktop/adapt-assistant.sh
+Icon=accessories-dictionary
+Terminal=false
+Categories=Education;Accessibility;
+Keywords=study;dyslexia;adhd;tutor;ai;

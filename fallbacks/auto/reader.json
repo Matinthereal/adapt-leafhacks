@@ -1,21 +1,11 @@
 {
   "chunks": [
-    "Green plants make their own food.",
-    "Some other organisms do this too.",
-    "This process is called photosynthesis.",
-    "They use sunlight to make food.",
-    "They use carbon dioxide and water.",
-    "Plants use a green pigment.",
-    "This pigment is called chlorophyll.",
-    "The process also makes oxygen.",
-    "Oxygen is a leftover by-product."
+    "Did you know that your cells have their own powerhouses?",
+    "We call this powerhouse the mitochondria.",
+    "It produces energy for your whole body.",
+    "This production happens constantly."
   ],
   "flagged_terms": [
-    "photosynthesis",
-    "organisms",
-    "carbon dioxide",
-    "pigment",
-    "chlorophyll",
-    "by-product"
+    "mitochondria"
   ]
 }
