@@ -1,0 +1,16 @@
+{
+  "name": "adapt",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Advanced Dyslexia & ADHD Personal Tutor — LeafHacks '26",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.3.0"
+  }
+}

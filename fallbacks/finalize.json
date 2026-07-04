@@ -1,0 +1,53 @@
+{
+  "understanding_score": 72,
+  "benchmark": "reference_text",
+  "trend": "improving",
+  "strengths": [
+    "Named the raw inputs correctly: water and carbon dioxide",
+    "Got the outputs right: glucose and oxygen",
+    "Explained why plants matter for the air we breathe",
+    "Knew sunlight is the energy source"
+  ],
+  "gaps": [
+    {
+      "turn_index": 1,
+      "missing_point": "How the plant actually captures light — the role of chlorophyll",
+      "peer_hint": "You told me sunlight powers it, but I still don't get what inside the plant catches the light. I think there's a green part that does the grabbing — do you know what it's called?"
+    },
+    {
+      "turn_index": 3,
+      "missing_point": "Where the reaction happens inside the cell (the chloroplasts)",
+      "peer_hint": "Does this all happen just anywhere in the leaf, or is there a specific little compartment where it takes place? That bit would help it click for me."
+    }
+  ],
+  "follow_up_questions": [
+    "What is the green pigment called that absorbs the sunlight?",
+    "Which part of the plant cell does photosynthesis actually happen in?",
+    "Why would a plant kept in the dark eventually stop making food?"
+  ],
+  "improved_explanation": [
+    {
+      "section_heading": "What photosynthesis is",
+      "content_paragraphs": [
+        "Photosynthesis is how green plants make their own food.",
+        "It uses energy from sunlight to power the whole process."
+      ]
+    },
+    {
+      "section_heading": "How the plant captures the light",
+      "content_paragraphs": [
+        "The green pigment chlorophyll absorbs the light energy.",
+        "Chlorophyll sits inside tiny compartments called chloroplasts.",
+        "This is the step to add to your explanation — it is what actually catches the sunlight."
+      ]
+    },
+    {
+      "section_heading": "The ingredients and the products",
+      "content_paragraphs": [
+        "The plant takes in carbon dioxide from the air and water from the soil.",
+        "Using the captured light, it turns these into glucose and oxygen.",
+        "The glucose is the plant's food. The oxygen is released back into the air."
+      ]
+    }
+  ]
+}
