@@ -267,12 +267,13 @@ function autoGrow() { grow.style.height = 'auto'; grow.style.height = Math.min(1
 grow.addEventListener('input', autoGrow);
 grow.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendTurn(); } });
 
-/* ---- voice (Web Speech; typed input is always the primary path) ---- */
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+/* ---- voice: record → transcribe via our Gemini key (works through VPNs / filtered
+   networks, unlike the browser's Web Speech which needs Google's servers). Typed input
+   is always the primary path. ---- */
 const micBtn = $('#btnMic');
-let recog = null, recording = false;
-// Web Speech needs a secure context: https OR localhost. On a phone hitting the LAN IP
-// over plain http it is blocked by the browser — detect that and say so clearly.
+let mediaRec = null, audioChunks = [], recording = false, recStream = null, recTimer = null;
+// getUserMedia needs a secure context: https OR localhost. A phone on the LAN over plain
+// http can't record — detect and say so, so typing is obviously the path there.
 const secureCtx = window.isSecureContext || ['localhost', '127.0.0.1'].includes(location.hostname);
 
 function micStatus(msg, isError) {
@@ -281,65 +282,62 @@ function micStatus(msg, isError) {
   el.style.color = isError ? 'var(--bad)' : 'var(--muted)';
 }
 function micUnavailable() {
-  if (!SR) return 'Voice needs Chrome, Edge or Safari — just type your answer instead.';
-  if (!secureCtx) return 'Voice needs a secure link. On the laptop open http://localhost:3000; on a phone just type here.';
+  if (!navigator.mediaDevices || !window.MediaRecorder) return 'Voice needs a modern browser — just type your answer instead.';
+  if (!secureCtx) return 'Voice recording needs a secure link. On the laptop open http://localhost:3000; on a phone, just type here.';
   return null;
 }
-// dim (never hide) the button when voice can't run, so typing is obviously the path
 (function initMic() {
   const why = micUnavailable();
   if (why) { micBtn.style.opacity = '.45'; micBtn.title = why; }
 })();
 
-function stopRec() {
-  recording = false;
-  try { recog && recog.stop(); } catch (e) {}
-  micBtn.classList.remove('rec'); micBtn.setAttribute('aria-pressed', 'false');
+function blobToB64(blob) {
+  return new Promise(res => { const fr = new FileReader(); fr.onloadend = () => res(String(fr.result).split(',')[1] || ''); fr.readAsDataURL(blob); });
 }
-
+function stopRec() {
+  if (!recording) return;
+  recording = false; clearTimeout(recTimer);
+  micBtn.classList.remove('rec'); micBtn.setAttribute('aria-pressed', 'false');
+  try { mediaRec && mediaRec.state !== 'inactive' && mediaRec.stop(); } catch (e) {}
+}
+async function onStopRec() {
+  try { recStream && recStream.getTracks().forEach(t => t.stop()); } catch (e) {}
+  if (!audioChunks.length) { micStatus('Didn’t catch anything — tap the mic and try again, or type.', true); return; }
+  const blob = new Blob(audioChunks, { type: (mediaRec && mediaRec.mimeType) || 'audio/webm' });
+  micStatus('⏳ Transcribing your answer…');
+  const b64 = await blobToB64(blob);
+  const r = await api('transcribe', { audio: b64, mime: blob.type || 'audio/webm' });
+  if (r.ok && r.text) {
+    const cur = $('#teachInput').value.trim();
+    $('#teachInput').value = (cur ? cur + ' ' : '') + r.text; autoGrow();
+    micStatus('✓ Got it — edit if you like, then Send.');
+    $('#teachInput').focus();
+  } else {
+    micStatus(r.message || 'Couldn’t transcribe that — just type your answer instead.', true);
+  }
+}
 micBtn.addEventListener('click', async () => {
   const why = micUnavailable();
   if (why) { micStatus(why, true); $('#teachInput').focus(); return; }
-  if (recording) { stopRec(); micStatus(''); return; }
-
-  // pre-flight the mic permission so the browser prompt appears and errors are explicit
+  if (recording) { micStatus('⏳ Finishing up…'); stopRec(); return; }
   try {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
-      s.getTracks().forEach(t => t.stop());
-    }
+    recStream = await navigator.mediaDevices.getUserMedia({ audio: true });
   } catch (e) {
     micStatus('Microphone blocked. Click the padlock in the address bar → allow the mic, then try again — or just type.', true);
     return;
   }
-
+  audioChunks = [];
+  const pref = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'];
+  const mime = pref.find(t => window.MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || '';
   try {
-    recog = new SR(); recog.lang = 'en-GB'; recog.interimResults = true; recog.continuous = true;
-    let finalT = $('#teachInput').value ? $('#teachInput').value.trim() + ' ' : '';
-    recog.onstart = () => { recording = true; micBtn.classList.add('rec'); micBtn.setAttribute('aria-pressed', 'true'); micStatus('🔴 Listening… tap the mic again to stop.'); };
-    recog.onresult = e => {
-      let interim = '';
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const t = e.results[i][0].transcript;
-        if (e.results[i].isFinal) finalT += t + ' '; else interim += t;
-      }
-      $('#teachInput').value = (finalT + interim).trim(); autoGrow();
-    };
-    recog.onerror = ev => {
-      const MAP = {
-        'not-allowed': 'Microphone blocked — allow it via the padlock in the address bar, or type instead.',
-        'service-not-allowed': 'The browser blocked the mic — type your answer instead.',
-        'no-speech': 'Didn’t catch anything — tap the mic and speak up, or type.',
-        'audio-capture': 'No microphone found — plug one in, or just type.',
-        'network': 'Voice service unreachable — check your connection, or type instead.',
-      };
-      if (ev.error !== 'aborted' && ev.error !== 'no-speech') micStatus(MAP[ev.error] || ('Voice hiccup (' + ev.error + ') — type instead.'), true);
-      stopRec();
-    };
-    recog.onend = () => { const was = recording; stopRec(); if (was) micStatus($('#teachInput').value ? '✓ Got it — edit if needed, then Send.' : ''); };
-    recog.start();
-    setTimeout(() => recording && stopRec(), 120000); // hard cap 120s
-  } catch (e) { micStatus('Could not start voice — just type your answer instead.', true); stopRec(); }
+    mediaRec = new MediaRecorder(recStream, mime ? { mimeType: mime } : undefined);
+  } catch (e) { mediaRec = new MediaRecorder(recStream); }
+  mediaRec.ondataavailable = e => { if (e.data && e.data.size) audioChunks.push(e.data); };
+  mediaRec.onstop = onStopRec;
+  mediaRec.start();
+  recording = true; micBtn.classList.add('rec'); micBtn.setAttribute('aria-pressed', 'true');
+  micStatus('🔴 Recording… tap the mic again when you’re done.');
+  recTimer = setTimeout(() => recording && stopRec(), 45000); // hard cap 45s
 });
 
 /* ---- finalize → wow report ---- */

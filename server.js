@@ -221,6 +221,27 @@ async function askGemini(route, body) {
   throw lastErr;
 }
 
+// transcribe a short audio clip → text, via Gemini audio understanding
+async function transcribe(b64, mime) {
+  if (!KEY) throw new Error('no key');
+  const payload = {
+    contents: [{ role: 'user', parts: [
+      { text: "Transcribe this student's spoken explanation into plain English text, verbatim. Return ONLY the transcript — no quotes, no notes, no commentary. If there is no intelligible speech, return an empty string." },
+      { inlineData: { mimeType: mime, data: b64 } },
+    ] }],
+    generationConfig: { temperature: 0, maxOutputTokens: 1024 },
+  };
+  // try primary model, then a known audio-capable fallback
+  for (const model of [MODEL, 'gemini-2.5-flash']) {
+    try {
+      const resp = await callGemini(model, payload, 30000);
+      const text = resp?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('').trim();
+      if (text !== undefined) { noteOk(); return text; }
+    } catch (e) { noteFail(e.status); if (e.status && e.status !== 429 && e.status < 500) throw e; }
+  }
+  throw new Error('all transcribe attempts failed');
+}
+
 function buildContents(route, body) {
   if (route === 'dialogue') {
     const hist = body.history.slice(-10); // server-side slice too — never trust the client
@@ -264,6 +285,22 @@ const server = http.createServer(async (req, res) => {
   if (url.pathname.startsWith('/api/')) {
     const route = url.pathname.slice(5);
     if (route === 'health') return sendJSON(res, 200, { ok: true, model: MODEL, keyed: !!KEY });
+
+    // Voice → text via Gemini (bypasses the browser's flaky Web Speech / Google-servers
+    // dependency, which VPNs and filtered networks break). Uses the same working key.
+    if (route === 'transcribe') {
+      if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
+      let body; try { body = JSON.parse(await readBody(req)); } catch (e) { return sendJSON(res, 400, { ok: false, error: 'bad json' }); }
+      if (!body.audio) return sendJSON(res, 400, { ok: false, error: 'no audio' });
+      try {
+        const text = await transcribe(body.audio, body.mime || 'audio/webm');
+        return sendJSON(res, 200, { ok: true, text });
+      } catch (e) {
+        console.error('[transcribe] failed:', e.status || '', e.message);
+        return sendJSON(res, 200, { ok: false, error: 'transcribe_failed', message: 'Could not transcribe that — just type your answer instead.' });
+      }
+    }
+
     if (!ROUTES[route]) return sendJSON(res, 404, { ok: false, error: 'unknown route' });
     if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
@@ -310,7 +347,7 @@ const server = http.createServer(async (req, res) => {
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
-    let s = ''; req.on('data', c => { s += c; if (s.length > 1e6) req.destroy(); });
+    let s = ''; req.on('data', c => { s += c; if (s.length > 12e6) req.destroy(); }); // ~12MB for audio uploads
     req.on('end', () => resolve(s)); req.on('error', reject);
   });
 }

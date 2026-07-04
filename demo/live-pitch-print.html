@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<title>Adapt — Live Pitch Script</title>
+<style>
+  @page { size: A4; margin: 16mm 18mm; }
+  :root{ --ink:#14202e; --muted:#5a6b7d; --blue:#1d4ed8; --cyan:#0284c7; --amber:#b45309; --line:#dbe2ea; --soft:#f4f7fb; --do:#0f766e; }
+  *{ box-sizing:border-box; }
+  body{ font-family:'Inter','Segoe UI',system-ui,sans-serif; color:var(--ink); font-size:11pt; line-height:1.5; margin:0; }
+  h1,h2,h3{ font-family:'Lexend','Segoe UI',sans-serif; line-height:1.15; margin:0; }
+  .doc{ max-width:820px; margin:0 auto; padding:26px 8px; }
+  header.top{ border-bottom:3px solid var(--blue); padding-bottom:14px; margin-bottom:18px; display:flex; align-items:center; gap:14px; }
+  .mark{ width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg,#2563eb,#0ea5e9); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Lexend'; font-weight:800; font-size:26px; flex-shrink:0; }
+  header.top h1{ font-size:22pt; letter-spacing:-.01em; }
+  header.top .sub{ color:var(--muted); font-size:10pt; margin-top:2px; }
+  .oneliner{ background:var(--soft); border-left:4px solid var(--cyan); padding:10px 14px; border-radius:8px; font-size:11pt; margin-bottom:20px; }
+  .oneliner b{ color:var(--blue); }
+  h2{ font-size:14pt; color:var(--blue); margin:22px 0 4px; padding-top:8px; border-top:1px solid var(--line); }
+  h2 .t{ font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10pt; color:var(--muted); font-weight:400; margin-left:8px; }
+  .beat{ margin:12px 0; page-break-inside:avoid; }
+  .beat h3{ font-size:11.5pt; margin-bottom:6px; display:flex; align-items:baseline; gap:8px; }
+  .beat h3 .tc{ font-family:'JetBrains Mono',monospace; font-size:9.5pt; color:var(--muted); font-weight:500; }
+  .say{ margin:0 0 6px; padding-left:14px; border-left:3px solid var(--blue); }
+  .say .lbl{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:8.5pt; letter-spacing:.06em; color:var(--blue); font-weight:700; }
+  .do{ margin:4px 0 6px; font-size:10pt; color:var(--do); }
+  .do .lbl{ font-family:'JetBrains Mono',monospace; font-size:8.5pt; letter-spacing:.06em; font-weight:700; }
+  .type{ background:var(--soft); border:1px solid var(--line); border-radius:6px; padding:7px 11px; font-size:10.5pt; font-style:italic; margin:5px 0; }
+  ul{ margin:6px 0; padding-left:20px; } li{ margin:3px 0; }
+  .checklist li{ list-style:none; position:relative; padding-left:6px; } .checklist li::before{ content:"☐"; position:absolute; left:-16px; color:var(--muted); }
+  .warn{ background:#fff7ed; border-left:4px solid var(--amber); padding:10px 14px; border-radius:8px; margin:8px 0; }
+  .warn b{ color:var(--amber); }
+  .qa b{ color:var(--ink); }
+  .muted{ color:var(--muted); }
+  strong{ color:#0b1a2b; }
+  .footer{ margin-top:22px; padding-top:12px; border-top:1px solid var(--line); font-size:9pt; color:var(--muted); text-align:center; }
+</style></head>
+<body><div class="doc">
+
+<header class="top">
+  <div class="mark">A</div>
+  <div><h1>Adapt — Live Pitch Script</h1><div class="sub">3 minutes · spoken on stage with the real app · LeafHacks ’26</div></div>
+</header>
+
+<div class="oneliner">If a judge only hears one line: <b>“Every study app explains things to you — Adapt flips it: you teach the AI, and it finds the exact thing you didn’t know you missed.”</b></div>
+
+<h2>Before you speak — 30-second setup</h2>
+<ul class="checklist">
+  <li>App open on <strong>http://localhost:3000</strong> in <strong>Chrome</strong>, full screen, profile not yet picked.</li>
+  <li>The photosynthesis paragraph already pasted in the Reader (so you can flip fast).</li>
+  <li>Wifi on — but it doesn’t matter: cached fallbacks mean <strong>the demo works even if the internet dies</strong>.</li>
+  <li>Phone ready with the <strong>QR code</strong> to hand a judge.</li>
+</ul>
+
+<h2>① Hook <span class="t">0:00–0:20</span></h2>
+<div class="beat">
+  <p class="say"><span class="lbl">SAY —</span> “Quick question: how do you revise? …Yeah. You read it again. Everyone does. <strong>84% of students re-read, and only 11% ever test themselves</strong> — and re-reading barely works. Now imagine you’re dyslexic, like 1 in 10 people. Or one of the <strong>half a million people in England waiting right now for an ADHD assessment</strong>. That wall of text was never built for you.”</p>
+  <p class="do"><span class="lbl">DO —</span> Nothing yet. Look at them, not the screen. Let the 549,000 land.</p>
+</div>
+
+<h2>② The flip <span class="t">0:20–0:40</span></h2>
+<div class="beat">
+  <p class="say"><span class="lbl">SAY —</span> “So we built Adapt. One big idea: every other study tool explains things <em>to</em> you. Adapt makes <em>you</em> teach <em>it</em>. But first — it meets you where you are.”</p>
+  <p class="do"><span class="lbl">DO —</span> Click <strong>ADHD Focus</strong>. Pause as the whole app re-themes.</p>
+  <p class="say"><span class="lbl">SAY —</span> “One click, and the entire app changes — font, colour, spacing, and quietly, how our AI talks to you. That’s not a filter; it’s one profile object driving the interface <em>and</em> the AI’s prompt. That part’s our engineering.”</p>
+  <p class="do"><span class="lbl">DO —</span> Quick click <strong>Dyslexia</strong> to show it warm to ivory + Lexend, then carry on.</p>
+</div>
+
+<h2>③ Reader <span class="t">0:40–1:00</span></h2>
+<div class="beat">
+  <p class="say"><span class="lbl">SAY —</span> “First, reading. Paste anything dense…”</p>
+  <p class="do"><span class="lbl">DO —</span> Reader → paste the paragraph → <strong>Make it readable</strong>.</p>
+  <p class="say"><span class="lbl">SAY —</span> “…and every fact is kept — just re-chunked into something that breathes. Gemini does the reasoning; we shape it for the profile. Dyslexia font, high-contrast, the lot.”</p>
+  <p class="do"><span class="lbl">DO —</span> Tap <strong>Dys font</strong> or <strong>Contrast</strong> once, then move on. Don’t linger.</p>
+</div>
+
+<h2>④ The hero — Teach it Back <span class="t">1:00–2:10 · slow down</span></h2>
+<div class="beat">
+  <p class="say"><span class="lbl">SAY —</span> “But here’s the one that wins the room. Meet Gem — a classmate who knows absolutely nothing. I’m going to teach it photosynthesis. Watch what I leave out.”</p>
+  <p class="do"><span class="lbl">DO —</span> Teach it back → topic <strong>Photosynthesis</strong> → Start → type turn 1:</p>
+  <p class="type">“Photosynthesis is how plants make their own food — they take in sunlight, water and carbon dioxide, and use the energy from the sun to make food and give off oxygen.”</p>
+  <p class="do"><span class="lbl">DO —</span> Send. Gem replies with a question — read it <strong>aloud</strong> to the judges.</p>
+  <p class="say"><span class="lbl">SAY —</span> “See — it doesn’t lecture. It asks. One sharp question. So I answer, a bit vaguely…”</p>
+  <p class="do"><span class="lbl">DO —</span> Type turn 2 (the fuzzy one, on purpose):</p>
+  <p class="type">“Umm… the green stuff in the leaves? The bit that makes them look green?”</p>
+  <p class="do"><span class="lbl">DO —</span> Send → <strong>See what we mapped out</strong> → let the score ring animate.</p>
+  <p class="say"><span class="lbl">SAY —</span> “And there it is. I never once said the word <em>chlorophyll</em> — so it found the exact gap I didn’t know I’d left. With a hint, a follow-up, and a cleaner rewrite. Re-reading would never have caught that. Teaching it did — in about ten seconds.”</p>
+  <p class="do"><span class="lbl">DO —</span> Tap the <strong>chlorophyll gap card</strong>. Hand a judge the <strong>QR code</strong>: “Scan that — try it on your own phone while I finish.”</p>
+</div>
+
+<h2>⑤ Science + tech <span class="t">2:10–2:40</span></h2>
+<div class="beat">
+  <p class="say"><span class="lbl">SAY —</span> “And this isn’t a gimmick. Teaching something is one of the most evidence-backed ways to learn — actually teaching it more than <strong>doubles</strong> what you keep versus just studying it. Researchers proved that since the 1990s; we built the tool that lets any student do it, alone, at 2am. Under the hood, Gemini returns a strict, schema-enforced JSON gap analysis — not begged from a prompt, enforced. <strong>Gemini is the reasoning engine — the accessibility engineering is ours.</strong>”</p>
+</div>
+
+<h2>⑥ Close <span class="t">2:40–3:00</span></h2>
+<div class="beat">
+  <p class="say"><span class="lbl">SAY —</span> “Adapt. You don’t read it again — you teach it once. Built for every mind, especially the ones that learn differently. …and yeah. It was chlorophyll.” <span class="muted">(smile — done)</span></p>
+</div>
+
+<h2>If the live demo breaks — keep smiling</h2>
+<div class="warn">
+  <p><b>API / wifi dies:</b> keep clicking — “everything you’re seeing runs on cached responses right now, so it never breaks on stage.” (It genuinely does — you’re telling the truth.)</p>
+  <p style="margin:6px 0 0"><b>Voice mic won’t start:</b> “voice is a bonus — I’ll just type it,” and type. Never fight the mic on stage.</p>
+  <p style="margin:6px 0 0"><b>Totally frozen:</b> talk over the still screen — you know the script; the words carry it. Refresh only as a last resort.</p>
+</div>
+
+<h2>Q&amp;A — fast, confident answers</h2>
+<ul class="qa">
+  <li><b>“Isn’t this just a Gemini wrapper?”</b> — “No — the profile object drives both the UI and the prompt, and the gap analysis is a two-phase pipeline against a strict schema. Gemini reasons; the accessibility system is ours.”</li>
+  <li><b>“Why not sign language?”</b> — “Full signing avatars are an unsolved research problem — we scoped honestly to what we could ship brilliantly.”</li>
+  <li><b>“Aren’t learning styles debunked?”</b> — “Yes — that’s why we call them explanation <em>modes</em>, not learning styles.”</li>
+  <li><b>“What’s next?”</b> — “Dyscalculia support, live voice tutoring, and a spelling-recognition mode.”</li>
+  <li><b>“Does the font actually help dyslexia?”</b> — “Evidence is mixed, so we don’t claim a cure — we give the <em>choice</em>. That’s the accessible thing to do.”</li>
+</ul>
+
+<h2>Delivery notes</h2>
+<ul>
+  <li>Speak to the <strong>judges</strong>, glance at the screen. The app is your slide, not your script.</li>
+  <li><strong>Rehearse the chlorophyll beat twice</strong> — the pause before Gem’s question is where the room leans in.</li>
+  <li>Hand over the QR <strong>during</strong> the demo — judges trying it themselves = instant Usefulness + UX points.</li>
+  <li>~450 spoken words ≈ 3:00 at a calm pace. Running long? Cut the Reader beat (③) — never Teach-it-Back.</li>
+</ul>
+
+<h2>30-second elevator backup</h2>
+<div class="oneliner" style="border-left-color:var(--amber)"><em>“Adapt is a study app for people who learn differently. It re-themes to your brain — dyslexia, ADHD — then does what no one else does: instead of explaining to you, it makes you teach a curious AI, and it finds the exact thing you got wrong. Teaching is one of the most proven ways to learn, and we made it something any student can do alone. Built on Gemini — the accessibility engineering is ours.”</em></div>
+
+<div class="footer">Adapt · You teach. It finds the gap. · Built for every mind · LeafHacks ’26</div>
+
+</div></body></html>
