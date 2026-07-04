@@ -267,16 +267,56 @@ function autoGrow() { grow.style.height = 'auto'; grow.style.height = Math.min(1
 grow.addEventListener('input', autoGrow);
 grow.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendTurn(); } });
 
-/* ---- voice (Web Speech; hidden where unsupported) ---- */
+/* ---- voice (Web Speech; typed input is always the primary path) ---- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const micBtn = $('#btnMic');
 let recog = null, recording = false;
-if (!SR) { $('#btnMic').style.display = 'none'; }
-function stopRec() { recording = false; try { recog && recog.stop(); } catch (e) {} $('#btnMic').classList.remove('rec'); }
-$('#btnMic').addEventListener('click', () => {
-  if (recording) return stopRec();
+// Web Speech needs a secure context: https OR localhost. On a phone hitting the LAN IP
+// over plain http it is blocked by the browser — detect that and say so clearly.
+const secureCtx = window.isSecureContext || ['localhost', '127.0.0.1'].includes(location.hostname);
+
+function micStatus(msg, isError) {
+  const el = $('#micStatus'); if (!el) return;
+  el.textContent = msg || '';
+  el.style.color = isError ? 'var(--bad)' : 'var(--muted)';
+}
+function micUnavailable() {
+  if (!SR) return 'Voice needs Chrome, Edge or Safari — just type your answer instead.';
+  if (!secureCtx) return 'Voice needs a secure link. On the laptop open http://localhost:3000; on a phone just type here.';
+  return null;
+}
+// dim (never hide) the button when voice can't run, so typing is obviously the path
+(function initMic() {
+  const why = micUnavailable();
+  if (why) { micBtn.style.opacity = '.45'; micBtn.title = why; }
+})();
+
+function stopRec() {
+  recording = false;
+  try { recog && recog.stop(); } catch (e) {}
+  micBtn.classList.remove('rec'); micBtn.setAttribute('aria-pressed', 'false');
+}
+
+micBtn.addEventListener('click', async () => {
+  const why = micUnavailable();
+  if (why) { micStatus(why, true); $('#teachInput').focus(); return; }
+  if (recording) { stopRec(); micStatus(''); return; }
+
+  // pre-flight the mic permission so the browser prompt appears and errors are explicit
+  try {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+      s.getTracks().forEach(t => t.stop());
+    }
+  } catch (e) {
+    micStatus('Microphone blocked. Click the padlock in the address bar → allow the mic, then try again — or just type.', true);
+    return;
+  }
+
   try {
     recog = new SR(); recog.lang = 'en-GB'; recog.interimResults = true; recog.continuous = true;
-    let finalT = $('#teachInput').value ? $('#teachInput').value + ' ' : '';
+    let finalT = $('#teachInput').value ? $('#teachInput').value.trim() + ' ' : '';
+    recog.onstart = () => { recording = true; micBtn.classList.add('rec'); micBtn.setAttribute('aria-pressed', 'true'); micStatus('🔴 Listening… tap the mic again to stop.'); };
     recog.onresult = e => {
       let interim = '';
       for (let i = e.resultIndex; i < e.results.length; i++) {
@@ -285,10 +325,21 @@ $('#btnMic').addEventListener('click', () => {
       }
       $('#teachInput').value = (finalT + interim).trim(); autoGrow();
     };
-    recog.onerror = stopRec; recog.onend = () => recording && stopRec();
-    recog.start(); recording = true; $('#btnMic').classList.add('rec');
+    recog.onerror = ev => {
+      const MAP = {
+        'not-allowed': 'Microphone blocked — allow it via the padlock in the address bar, or type instead.',
+        'service-not-allowed': 'The browser blocked the mic — type your answer instead.',
+        'no-speech': 'Didn’t catch anything — tap the mic and speak up, or type.',
+        'audio-capture': 'No microphone found — plug one in, or just type.',
+        'network': 'Voice service unreachable — check your connection, or type instead.',
+      };
+      if (ev.error !== 'aborted' && ev.error !== 'no-speech') micStatus(MAP[ev.error] || ('Voice hiccup (' + ev.error + ') — type instead.'), true);
+      stopRec();
+    };
+    recog.onend = () => { const was = recording; stopRec(); if (was) micStatus($('#teachInput').value ? '✓ Got it — edit if needed, then Send.' : ''); };
+    recog.start();
     setTimeout(() => recording && stopRec(), 120000); // hard cap 120s
-  } catch (e) { stopRec(); }
+  } catch (e) { micStatus('Could not start voice — just type your answer instead.', true); stopRec(); }
 });
 
 /* ---- finalize → wow report ---- */
